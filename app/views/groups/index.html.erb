@@ -1,0 +1,36 @@
+<h1>Группы</h1>
+
+<table>
+  <thead>
+    <tr>
+      <% order = (params['order']=='asc') ? 'desc' : 'asc' %>
+      <th><%= link_to 'Название', "?order_by=title&order=#{order}" %></th>
+      <th><%= link_to 'Год создания', "?order_by=formation_year&order=#{order}" %></th>
+      <th><%= link_to 'Страна', "?order_by=country&order=#{order}" %></th>
+      <th><%= link_to 'Хит-парад', "?order_by=top_position&order=#{order}" %></th>
+      <th colspan='2'></th>
+    </tr>
+    <tr id='new_group'>
+      <%= form_for(@group, url: {action: "create"}) do |f|%>
+        <th><%= f.text_field :title, size: 15 %></th>
+        <th><%= f.text_field :formation_year, size: 4, maxlength: 4 %></th>
+        <th><%= f.text_field :country, size: 10 %></th>
+        <th><%= f.text_field :top_position, size: 3, maxlength: 3 %></th>
+        <th colspan='2'> <%= f.submit 'Добавить'%> </th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @groups.each do |group| %>
+      <tr>
+        <td><%= link_to group['title'], "/groups/#{group['id']}" %></td>
+        <td><%= group['formation_year'] %></td>
+        <td><%= group['country'] %></td>
+        <td><%= group['top_position'] %></td>
+        <td><%= link_to 'Изменить', edit_group_path(group['id']) %></td>
+        <td><%= link_to 'Удалить', "/groups/#{group['id']}", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

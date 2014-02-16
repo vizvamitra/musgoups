@@ -1,0 +1,54 @@
+// Place all the styles related to the Groups controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+h1{
+	margin:0px;
+	margin-bottom:10px;
+}
+
+table{
+	border-collapse:collapse;
+	margin:auto;
+	max-width:650px;
+
+	thead {
+		tr{
+			background-color:#e8e8e8;
+		}
+		th{
+			padding:5px;
+		}
+
+		#new_group {
+			background-color:#f0f0f0;
+
+			th{
+				padding:2px;
+			}
+
+			input[type=text]{
+				text-align:left;
+				border:1px solid gray;
+				padding:1px;
+			}
+		}
+	}
+
+	tbody{
+		text-align:center;
+
+		tr:nth-child(2n+1){
+			background-color:#f8f8f8;
+		}
+		tr:nth-child(2n){
+			background-color:#f0f0f0;
+		}
+		tr:hover{
+			background-color:#e8e8e8;
+		}
+
+		td{
+			padding:5px;
+		}
+	}
+}

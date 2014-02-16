@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Musgroups</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+	<div id='wrapper'>
+
+		<section id='sidebar'>
+			<nav id='menu'>
+				<%= link_to "Логин", groups_path %>
+				<%= link_to "Поиск", groups_path %>
+				<%= link_to "Группы", groups_path %>
+				<%= link_to "Хит-парад", groups_path %>
+				<%= link_to "Песни", groups_path %>
+				<%= link_to "Гастроли", groups_path %>
+			</nav>
+			<div id="top_5">
+				<h4>Пятёрка лучших</h4>
+				<% @top5_groups.each do |group| %>
+					<p><%= "#{group['top_position']}. #{group['title']}" %></p>
+				<% end %>
+			</div>
+		</section>
+
+		<section id='main'>
+			<div id='content'>
+				<%= yield %>
+			</div>
+
+			<div id='buffer'></div>
+		</section>
+
+		<footer>
+			<p>(с) Дмитрий Краснов, гр.9811</p>
+			<p>2014</p>
+		</footer>
+	</div>
+</body>
+</html>

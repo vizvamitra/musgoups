@@ -1,0 +1,24 @@
+<div id="notice"><%= notice %></div>
+
+<p>
+  <strong>Title:</strong>
+  <%= @group['title'] %>
+</p>
+
+<p>
+  <strong>Formation year:</strong>
+  <%= @group['formation_year'] %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= @group['country'] %>
+</p>
+
+<p>
+  <strong>Top position:</strong>
+  <%= @group['top_position'] %>
+</p>
+
+<%= link_to 'Edit', edit_group_path(@group) %> |
+<%= link_to 'Back', groups_path %>
