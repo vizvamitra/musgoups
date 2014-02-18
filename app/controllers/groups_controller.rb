@@ -8,13 +8,17 @@ class GroupsController < ApplicationController
     result = ActiveRecord::Base.connection.execute(
       "SELECT * FROM groups ORDER BY #{order}")
     @groups = []
-    result.each(as: :hash) {|item| @groups << item}
+    result.each() {|item| @groups << item}
     @group = Group.new
   end
 
   # GET /groups/1
   # GET /groups/1.json
   def show
+    result = ActiveRecord::Base.connection.execute(
+      "SELECT * FROM members WHERE group_id = #{@group['id']}")
+    @members = []
+    result.each() {|item| @members << item}
   end
 
   # GET /groups/1/edit

@@ -10,7 +10,7 @@ private
 		sql = ActiveRecord::Base.connection()
 		result = sql.execute("SELECT title, top_position FROM groups WHERE top_position IS NOT NULL ORDER BY top_position LIMIT 5")
 		@top5_groups = []
-		result.each(as: :hash) do |row|
+		result.each() do |row|
 			@top5_groups << row
 		end
 	end

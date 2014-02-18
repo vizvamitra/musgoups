@@ -1,4 +1,7 @@
 Musgroups::Application.routes.draw do
+  resources :members
+  get '/groups/:group_id/members' => 'members#index', as: 'group_members'
+
   resources :groups
 
   root 'groups#index', as: 'index', via: :all

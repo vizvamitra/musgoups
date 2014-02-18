@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140207155627) do
+ActiveRecord::Schema.define(version: 20140218135659) do
 
   create_table "groups", force: true do |t|
     t.string   "title",          null: false
@@ -22,6 +22,15 @@ ActiveRecord::Schema.define(version: 20140207155627) do
     t.datetime "updated_at"
   end
 
-  add_index "groups", ["top_position"], name: "index_groups_on_top_position", unique: true, using: :btree
+  add_index "groups", ["top_position"], name: "index_groups_on_top_position", unique: true
+
+  create_table "members", force: true do |t|
+    t.string   "name"
+    t.string   "role"
+    t.datetime "birth_date"
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
