@@ -5,7 +5,7 @@ class MembersController < ApplicationController
   # GET /members.json
   def index
     @members = Member.where(group_id: params['group_id'])
-    p @members
+    @group = Group.find(params['group_id'])
   end
 
   # GET /members/1

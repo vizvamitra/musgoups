@@ -11,15 +11,13 @@
 
 		<section id='sidebar'>
 			<nav id='menu'>
+				<%= link_to "Группы", groups_path %>
 				<%= link_to "Логин", groups_path %>
 				<%= link_to "Поиск", groups_path %>
-				<%= link_to "Группы", groups_path %>
-				<%= link_to "Хит-парад", groups_path %>
-				<%= link_to "Песни", groups_path %>
-				<%= link_to "Гастроли", groups_path %>
+				<%= link_to "Задание", task_path %>
 			</nav>
 			<div id="top_5">
-				<h4>Пятёрка лучших</h4>
+				<h4>Хит-парад</h4>
 				<% @top5_groups.each do |group| %>
 					<p><%= "#{group['top_position']}. #{group['title']}" %></p>
 				<% end %>
@@ -30,14 +28,12 @@
 			<div id='content'>
 				<%= yield %>
 			</div>
-
-			<div id='buffer'></div>
 		</section>
 
-		<footer>
-			<p>(с) Дмитрий Краснов, гр.9811</p>
-			<p>2014</p>
-		</footer>
 	</div>
+	<footer>
+		<p>(с) Дмитрий Краснов, гр.9811</p>
+		<p>2014</p>
+	</footer>
 </body>
 </html>

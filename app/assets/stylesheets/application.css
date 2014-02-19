@@ -28,7 +28,7 @@ h1, h2, h3, h4, h5, p, a{ margin:0; }
   margin:auto;
   position:absolute;
   height:auto;
-  bottom:0;
+  bottom:46px;
   top:0;
   left:0;
   right:0;
@@ -81,6 +81,7 @@ h1, h2, h3, h4, h5, p, a{ margin:0; }
 	height:100%;
 	margin-left:150px;
 	background-color:#fafafa;
+	overflow:auto;
 }
 
 #content{
@@ -90,10 +91,7 @@ h1, h2, h3, h4, h5, p, a{ margin:0; }
 	max-width:760px;
 	word-wrap:break-word;
 	margin:auto;
-}
-
-#buffer{
-	height:46px;
+	
 }
 
 footer{
@@ -103,6 +101,9 @@ footer{
 	text-align:center;
 	color:#bbb;
 	background-color:#555;
+	position:absolute;
+	bottom:0;
+	width:100%;
 }
 
 footer p{

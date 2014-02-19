@@ -1,0 +1,38 @@
+<h1><%= "Песни #{@group['title']}" %></h1>
+
+<%= link_to 'Добавить', new_group_song_path(@group['id']) %>
+<%= link_to 'Назад', group_path(@group['id']) %>
+
+<br/><br/>
+
+<table>
+  <thead>
+    <tr>
+      <th>Название</th>
+      <th>Композитор</th>
+      <th>Автор текста</th>
+      <%unless @group%><th>Группа</th><%end%>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @songs.each do |song| %>
+      <tr>
+        <td><%= song['title'] %></td>
+        <td><%= song['music_by'] %></td>
+        <td><%= song['lyrics_by'] %></td>
+        <%unless @group%><td><%= link_to song['group_name'], group_path(song['group_id']) %></td> <% end %>
+        <td><%= link_to 'Изменить', edit_song_path(song['id']) %></td>
+        <td><%= link_to 'Удалить', song_path(song['id']), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br/>
+
+<%= link_to 'Добавить', new_group_song_path(@group['id']) %>
+<%= link_to 'Назад', group_path(@group['id']) %>

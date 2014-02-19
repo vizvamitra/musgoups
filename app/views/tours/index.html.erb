@@ -1,0 +1,35 @@
+<h1>Концертные туры <%= @group['title'] %></h1>
+
+<%= link_to 'Добавить', new_tour_path %> | 
+<%= link_to 'Назад', group_path(@group['id']) %>
+
+<br/><br/>
+
+<table>
+  <thead>
+    <tr>
+      <th>Название</th>
+      <th>Начало</th>
+      <th>Окончание</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tours.each do |tour| %>
+      <tr>
+        <td><%= link_to tour['title'], group_tour_path(@group['id'],tour['id']) %></td>
+        <td><%= tour['begin_date'].to_date.strftime('%d.%m.%Y') %></td>
+        <td><%= tour['end_date'].to_date.strftime('%d.%m.%Y') %></td>
+        <td><%= link_to 'Изменить', edit_tour_path(tour['id']) %></td>
+        <td><%= link_to 'Удалить', tour_path(tour['id']), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br/>
+
+<%= link_to 'Добавить', new_tour_path %> | 
+<%= link_to 'Назад', group_path(@group['id']) %>

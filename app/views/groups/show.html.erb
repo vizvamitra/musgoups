@@ -1,25 +1,24 @@
 <div id="notice"><%= notice %></div>
+<h1><%= @group['title'] %></h1><br/>
 
-<p>
-  <strong>Title:</strong>
-  <%= @group['title'] %>
-</p>
+<table>
+	<tr>
+	  <td><strong>Год создания:</strong></td>
+	  <td><%= @group['formation_year'] %></td>
+	</tr>
 
-<p>
-  <strong>Formation year:</strong>
-  <%= @group['formation_year'] %>
-</p>
+	<tr>
+	  <td><strong>Страна:</strong></td>
+	  <td><%= @group['country'] %></td>
+	</tr>
 
-<p>
-  <strong>Country:</strong>
-  <%= @group['country'] %>
-</p>
-
-<p>
-  <strong>Top position:</strong>
-  <%= @group['top_position'] %>
-</p>
-
-<%= link_to 'Edit', edit_group_path(@group) %> |
+	<tr>
+	  <td><strong>Место в хит-параде:</strong></td>
+	  <td><%= @group['top_position'] %></td>
+	</tr>
+</table><br/>
+<%= link_to 'Изменить', edit_group_path(@group) %> |
 <%= link_to 'Состав', group_members_path(@group['id'])%> | 
-<%= link_to 'Back', groups_path %>
+<%= link_to 'Песни', group_songs_path(@group['id'])%> | 
+<%= link_to 'Гастроли', group_tours_path(@group['id'])%> | 
+<%= link_to 'Назад', groups_path %>

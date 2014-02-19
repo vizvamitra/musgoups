@@ -1,8 +1,20 @@
 Musgroups::Application.routes.draw do
+  resources :concerts
+
+  resources :tours
+  get 'groups/:group_id/tours' => 'tours#index', as: 'group_tours'
+  get 'groups/:group_id/tours/:id' => 'tours#show', as: 'group_tour'
+
+  resources :songs
+  get '/groups/:group_id/songs' => 'songs#index', as: 'group_songs'
+  get '/groups/:group_id/songs/new' => 'songs#new', as: 'new_group_song'
+  post '/groups/:group_id/songs/new' => 'songs#create'
+  
   resources :members
   get '/groups/:group_id/members' => 'members#index', as: 'group_members'
 
   resources :groups
+  get '/task' => 'groups#task', as: 'task'
 
   root 'groups#index', as: 'index', via: :all
 
