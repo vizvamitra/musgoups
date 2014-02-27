@@ -6,6 +6,7 @@ set :application, "musgroups"
 set :rvm_type, :user
 set :rvm_ruby_string, 'ruby-2.1.0'
 require 'rvm/capistrano'
+require 'bundler/capistrano'
 
 # file paths
 set :repository,  "#{user}@Raumarepola:git/#{application}.git" 
