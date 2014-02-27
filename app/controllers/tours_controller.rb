@@ -14,7 +14,9 @@ class ToursController < ApplicationController
     @group = Group.get_one(params['group_id'].to_i)
     @concerts = @tour.get_concerts()
     @concerts.each() do |concert| 
-      concert['ticket_price'] = ((0.5+1.0/@group['top_position'])*(15000.0/concert['country'].length)).to_i
+      if @group.top_position && concert['country']
+        concert['ticket_price'] = ((0.5+1.0/@group.top_position)*(15000.0/concert['country'].length)).to_i
+      end
     end
   end
 
@@ -35,17 +37,20 @@ class ToursController < ApplicationController
   def create
     @tour = Tour.new(tour_params)
     @concert = Concert.new(concert_params)
+    @group = Group.get_one(@tour.group_id)
 
     if id = @tour.save
       @concert.tour_id = id
       done = @concert.save
+      @tour.delete unless done
+    else
+      done = false
     end
 
     respond_to do |format|
       if done
         format.html { redirect_to group_tour_path(@tour.group_id, @tour.id), notice: 'Концертный тур успешно добавлен.' }
       else
-        @tour.delete
         format.html { render action: 'new' }
       end
     end
@@ -85,16 +90,22 @@ class ToursController < ApplicationController
 
     def concert_params
       pars = params.require(:concert).permit! do |whitelist|
-        whitelist['city'] = params['concert']['city'].trim.downcase
-        whitelist['country'] = params['concert']['country'].trim.downcase
-        whitelist['date(1i)'] = params['concert']['date(1i)'].to_i
-        whitelist['date(2i)'] = params['concert']['date(2i)'].to_i
-        whitelist['date(3i)'] = params['concert']['date(3i)'].to_i
+        whitelist['city'] = params['concert']['city']
+        whitelist['country'] = params['concert']['country']
+        whitelist['date(1i)'] = params['concert']['date(1i)']
+        whitelist['date(2i)'] = params['concert']['date(2i)']
+        whitelist['date(3i)'] = params['concert']['date(3i)']
       end
+      pars['city'] = pars['city'].trim
+      pars['country'] = pars['country'].trim
+      pars['date(1i)'] = pars['date(1i)'].to_i
+      pars['date(2i)'] = pars['date(2i)'].to_i
+      pars['date(3i)'] = pars['date(3i)'].to_i
+
       pars['date'] = 
-          pars.delete('date(1i)') + '-' +
-          pars.delete('date(2i)') + '-' +
-          pars.delete('date(3i)')
+          pars.delete('date(1i)').to_s + '-' +
+          pars.delete('date(2i)').to_s + '-' +
+          pars.delete('date(3i)').to_s
       pars
     end
 end

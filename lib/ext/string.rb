@@ -1,5 +1,5 @@
 class String
   def trim
-    self.gsub(/([^\d\w\s-])/){'\\'+$1}
+    self.gsub(/([^[:word:]\s\d-])/){'\\'+$1}
   end
 end

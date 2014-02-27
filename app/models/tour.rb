@@ -2,8 +2,6 @@ class Tour < ActiveRecord::Base
 	belongs_to :group
 	has_many :concerts, dependent: :destroy
 
-  # attr_accessor :begin_date, :end_date
-
 	def self.get_one(id)
 		result = Tour.find_by_sql("SELECT * FROM tours
 		                            WHERE id=#{id} LIMIT 1")
@@ -81,10 +79,10 @@ class Tour < ActiveRecord::Base
 
 	def delete
     begin
-      query = "DELETE FROM concerts WHERE tour_id=#{id};"
+      query = "DELETE FROM concerts WHERE tour_id=#{self.id};"
       ActiveRecord::Base.connection.execute(query)
 
-      query = "DELETE FROM tours WHERE id=#{id};"
+      query = "DELETE FROM tours WHERE id=#{self.id};"
       ActiveRecord::Base.connection.execute(query)
       
       true
@@ -93,4 +91,31 @@ class Tour < ActiveRecord::Base
     	false
     end
 	end
+
+  def self.search_for(string)
+    query ="SELECT
+              title, begin_date, end_date, id, gid, g_title
+            FROM (
+              SELECT
+                t.id, t.title, t.group_id,
+                d.begin_date, d.end_date,
+                g.gid, g.g_title
+              FROM
+                tours t
+              INNER JOIN
+                ( SELECT MIN(date) AS begin_date,
+                         MAX(date) AS end_date,
+                         tour_id
+                  FROM concerts
+                  GROUP BY tour_id
+                ) d ON t.id = d.tour_id
+              INNER JOIN
+                ( SELECT title AS g_title,
+                         id AS gid
+                  FROM groups
+                ) g ON g.gid = t.group_id
+            )
+            WHERE title LIKE '%#{string}%'  "
+    Tour.find_by_sql(query)
+  end
 end

@@ -78,12 +78,21 @@ class GroupsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit! do |whitelist|
-        whtelist['title'] = params['group']['title'].trim.downcase
-        whtelist['formation_year'] = params['group']['formation_year'].to_i
-        whtelist['country'] = params['group']['country'].trim.downcase
-        whtelist['top_position'] = params['group']['top_position'].to_i
+      pars = params.require(:group).permit! do |whitelist|
+        whtelist['title'] = params['group']['title']
+        whtelist['formation_year'] = params['group']['formation_year']
+        whtelist['country'] = params['group']['country']
+        whtelist['top_position'] = params['group']['top_position']
       end
+
+      pars['title'] = pars['title'].trim
+      pars['country'] = pars['country'].trim
+      pars['formation_year'] = pars['formation_year'].to_i
+      pars['top_position'] = pars['top_position'].to_i
+
+      pars['formation_year'] = nil if pars['formation_year'].zero?
+      pars['top_position'] = nil if pars['top_position'].zero?
+      pars
     end
 
     def get_order_string

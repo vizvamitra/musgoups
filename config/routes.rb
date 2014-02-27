@@ -4,6 +4,11 @@ Musgroups::Application.routes.draw do
 
   get '/task' => 'task#task', as: 'task'
 
+  controller :search do
+    get "search" => :index, as: 'search'
+    post "search" => :index
+  end
+
   resources :groups
 
   controller :songs do

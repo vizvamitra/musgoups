@@ -72,4 +72,16 @@ class Song < ActiveRecord::Base
     	false
     end
 	end
+
+  def self.search_for(string)
+    query ="SELECT * FROM songs s
+            INNER JOIN
+              ( SELECT id AS gid, title AS g_title
+                FROM groups
+              ) g ON g.gid = s.group_id
+            WHERE s.title LIKE '%#{string}%'
+               OR s.music_by LIKE '%#{string}%'
+               OR s.lyrics_by LIKE '#{string.to_i}'"
+    Song.find_by_sql(query)
+  end
 end

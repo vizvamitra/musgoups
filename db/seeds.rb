@@ -84,3 +84,5 @@ Concert.create!(country:'Россия', city:'Москва', date:'2013-11-06',t
 Concert.create!(country:'Россия', city:'Санкт-Петербург', date:'2013-11-08',tour_id:1)
 Concert.create!(country:'Беларусь', city:'Минск', date:'2013-11-10',tour_id:1)
 Concert.create!(country:'Украина', city:'Киев', date:'2013-11-12',tour_id:1)
+
+Concert.create!(country:'Украина', city:'Киев', date:'2013-11-12',tour_id:2)

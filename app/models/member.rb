@@ -71,4 +71,15 @@ class Member < ActiveRecord::Base
     	false
     end
 	end
+
+  def self.search_for(string)
+    query ="SELECT * FROM members m
+            INNER JOIN
+              ( SELECT id AS gid, title AS g_title
+                FROM groups
+              ) g ON g.gid = m.group_id
+            WHERE name LIKE '%#{string}%'
+              OR role LIKE '%#{string}%'"
+    Member.find_by_sql(query)
+  end
 end

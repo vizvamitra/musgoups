@@ -24,7 +24,7 @@
     <%= f.date_select :date, start_year: Time.now.year-100 %>
   </div>
   <div class="field">
-    <%= f.hidden_field :tour_id, value: params['tour_id'] %>
+    <%= f.hidden_field :tour_id, value: @concert.tour_id %>
   </div>
   <div class="actions">
     <%= f.submit "Сохранить" %>

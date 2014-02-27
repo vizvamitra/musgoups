@@ -34,12 +34,11 @@ class Concert < ActiveRecord::Base
                        '#{Time.now.to_s(:db)}')"
 			begin
       	ActiveRecord::Base.connection.insert(query)
+      	true
       rescue => e
       	self.errors[:base] << "Произошла ошибка"
     		false
     	end
-
-    	true
     end
 	end
 
@@ -68,12 +67,43 @@ class Concert < ActiveRecord::Base
 	end
 
 	def delete
-		query = "DELETE FROM concerts WHERE id = #{id}"
+		query = "SELECT COUNT(*) FROM concerts WHERE tour_id=#{self.tour_id}"
 		begin
-    	ActiveRecord::Base.connection.execute(query)
-    rescue => e
+			count = ActiveRecord::Base.connection.execute(query)[0][0]
+			if count == 1
+				self.errors[:base] << "Нельзя удалить последний концерт."
+				false
+			else
+				query = "DELETE FROM concerts WHERE id = #{id}"
+				ActiveRecord::Base.connection.execute(query)
+			end
+		rescue => e
     	self.errors[:base] << "Произошла ошибка"
     	false
     end
 	end
+
+	def self.search_for(string)
+    query ="SELECT
+    						id, date, city, country,
+    						t_title, tid,
+    						g_title, gid
+    				FROM (
+    					SELECT *
+	    				FROM
+	    					concerts c
+	    				INNER JOIN
+		    				( SELECT id AS tid, group_id, title AS t_title
+		    					FROM tours
+		    				) t ON t.tid = c.tour_id
+							INNER JOIN
+								( SELECT title AS g_title, id AS gid
+									FROM groups
+								) g ON t.group_id = g.gid
+						)
+            WHERE city LIKE '%#{string}%'
+               OR country LIKE '%#{string}%'
+               OR date LIKE '%#{string}%'"
+    Concert.find_by_sql(query)
+  end
 end

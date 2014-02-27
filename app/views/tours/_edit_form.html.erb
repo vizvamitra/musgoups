@@ -17,7 +17,7 @@
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.hidden_field :group_id, value: params['group_id'].to_i %>
+    <%= f.hidden_field :group_id, value: @tour.group_id %>
   </div>
   <div class="actions">
     <%= f.submit "Сохранить" %>

@@ -67,17 +67,24 @@ class MembersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def member_params
       pars = params.require(:member).permit! do |whitelist|
-        whitelist['name'] = params['member']['name'].trim.downcase
-        whitelist['role'] = params['member']['role'].trim.downcase
-        whitelist['birth_date(1i)'] = params['member']['birth_date(1i)'].to_i
-        whitelist['birth_date(2i)'] = params['member']['birth_date(2i)'].to_i
-        whitelist['birth_date(3i)'] = params['member']['birth_date(3i)'].to_i
+        whitelist['name'] = params['member']['name']
+        whitelist['role'] = params['member']['role']
+        whitelist['birth_date(1i)'] = params['member']['birth_date(1i)']
+        whitelist['birth_date(2i)'] = params['member']['birth_date(2i)']
+        whitelist['birth_date(3i)'] = params['member']['birth_date(3i)']
         whitelist['group_id'] = params['member']['group_id']
       end
+
+      pars['name'] = pars['name'].trim
+      pars['role'] = pars['role'].trim
+      pars['group_id'] = pars['group_id'].to_i
+      pars['birth_date(1i)'] = pars['birth_date(1i)'].to_i
+      pars['birth_date(2i)'] = pars['birth_date(2i)'].to_i
+      pars['birth_date(3i)'] = pars['birth_date(3i)'].to_i
       pars['birth_date'] = 
-          pars.delete('birth_date(1i)') + '-' +
-          pars.delete('birth_date(2i)') + '-' +
-          pars.delete('birth_date(3i)')
+          pars.delete('birth_date(1i)').to_s + '-' +
+          pars.delete('birth_date(2i)').to_s + '-' +
+          pars.delete('birth_date(3i)').to_s
       pars
     end
 end

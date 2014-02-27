@@ -24,7 +24,7 @@
     <%= f.text_field :lyrics_by %>
   </div>
   <div class="field">
-    <%= f.hidden_field :group_id, value: params['group_id'].to_i %>
+    <%= f.hidden_field :group_id, value: @song.group_id %>
   </div>
   <div class="actions">
     <%= f.submit "Сохранить" %>

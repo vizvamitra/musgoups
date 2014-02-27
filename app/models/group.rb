@@ -28,7 +28,7 @@ class Group < ActiveRecord::Base
                                   updated_at)
                VALUES ('#{title}',
                         #{formation_year || 'NULL'},
-                       '#{country || 'NULL'}',
+                       '#{country}',
                         #{top_position || 'NULL'},
                        '#{Time.now.to_s(:db)}',
                        '#{Time.now.to_s(:db)}')"
@@ -53,10 +53,10 @@ class Group < ActiveRecord::Base
     	false
 		else
   		query = "UPDATE groups
-               SET title = '#{new_data['title']}',
-                   country = '#{new_data['country']}',
-                   formation_year = #{new_data['formation_year']},
-                   top_position = #{new_data['top_position']},
+               SET title = '#{self.title}',
+                   country = '#{self.country}',
+                   formation_year = #{self.formation_year || 'NULL'},
+                   top_position = #{self.top_position || 'NULL'},
                    updated_at = '#{Time.now.to_s(:db)}'
                WHERE id=#{id};"
       begin
@@ -95,4 +95,12 @@ class Group < ActiveRecord::Base
     	false
     end
 	end
+
+  def self.search_for(string)
+    query = "SELECT * FROM groups
+             WHERE title LIKE '%#{string}%'
+                OR country LIKE '%#{string}%'
+                OR formation_year LIKE #{string.to_i}"
+    Group.find_by_sql(query)
+  end
 end
