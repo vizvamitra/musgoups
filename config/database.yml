@@ -19,11 +19,7 @@ test:
   timeout: 5000
 
 production:
-  adapter: mysql2
-  encoding: utf8
-  reconnect: false
-  database: musgroups_production
+  adapter: sqlite3
+  database: db/development.sqlite3
   pool: 5
-  username: vizvamitra
-  password: 00060029
-  host: localhost
+  timeout: 5000
