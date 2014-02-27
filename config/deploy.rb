@@ -5,6 +5,8 @@ set :application, "musgroups"
 # adjust if you are using RVM, remove if you are not
 set :rvm_type, :user
 set :rvm_ruby_string, 'ruby-2.1.0'
+set :bundle_cmd, "/home/#{user}/.rvm/gems/ruby-2.1.0@global/bin/bundle"
+
 require 'rvm/capistrano'
 require 'bundler/capistrano'
 
