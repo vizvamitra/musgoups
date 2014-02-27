@@ -34,7 +34,7 @@ ssh_options[:forward_agent] = true
 # miscellaneous options
 set :deploy_via, :remote_cache
 set :scm, 'git'
-set :branch, 'design'
+set :branch, 'master'
 set :scm_verbose, true
 set :use_sudo, false
 set :normalize_asset_timestamps, false
