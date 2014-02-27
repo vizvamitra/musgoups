@@ -31,6 +31,7 @@ Song.create!(title:'Space Truckin', music_by:'', lyrics_by:'', group_id:1)
 
 Tour.delete_all
 Tour.create!(id:1, title:'Now What?! World Tour', group_id:1)
+Tour.create!(id:2, title:'Dummy', group_id:1)
 
 Concert.delete_all
 Concert.create!(country:'ОАЭ', city:'Дубай', date:'2013-01-21',tour_id:1)

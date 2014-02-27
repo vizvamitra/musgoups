@@ -17,8 +17,11 @@
 	  <td><%= @group['top_position'] %></td>
 	</tr>
 </table><br/>
-<%= link_to 'Изменить', edit_group_path(@group) %> |
-<%= link_to 'Состав', group_members_path(@group['id'])%> | 
-<%= link_to 'Песни', group_songs_path(@group['id'])%> | 
-<%= link_to 'Гастроли', group_tours_path(@group['id'])%> | 
-<%= link_to 'Назад', groups_path %>
+
+<div class='controls'>
+	<%= link_to 'Изменить', edit_group_path(@group) %> |
+	<%= link_to 'Состав', group_members_path(@group['id'])%> | 
+	<%= link_to 'Песни', group_songs_path(@group['id'])%> | 
+	<%= link_to 'Гастроли', group_tours_path(@group['id'])%> | 
+	<%= link_to 'Назад', groups_path %>
+</div>

@@ -1,6 +1,7 @@
-<h1>Editing member</h1>
+<h1>Изменение данных участника</h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @member %> |
-<%= link_to 'Back', members_path %>
+<div class='controls'>
+	<%= link_to 'Назад', group_members_path(params['group_id'].to_i) %>
+</div>

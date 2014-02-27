@@ -1,6 +1,7 @@
-<h1>Editing song</h1>
+<h1>Изменение данных песни</h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @song %> |
-<%= link_to 'Back', songs_path %>
+<div class='controls'>
+	<%= link_to 'Назад', group_songs_path(params['group_id'].to_i) %>
+</div>

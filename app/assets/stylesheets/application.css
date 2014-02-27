@@ -9,7 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree .
+ *= require_tree ./screen
  */
 html, body{ 
 	height:100%;
@@ -85,13 +85,18 @@ h1, h2, h3, h4, h5, p, a{ margin:0; }
 }
 
 #content{
-	padding:5px 0 5px 0;
+	padding:10px 0 5px 0;
 	text-align:center;
 	width:auto;
 	max-width:760px;
 	word-wrap:break-word;
 	margin:auto;
-	
+}
+
+#print_button{
+	position:absolute;
+	top:5px;
+	left:155px;
 }
 
 footer{

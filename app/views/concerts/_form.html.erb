@@ -21,13 +21,12 @@
   </div>
   <div class="field">
     <%= f.label 'Дата' %><br>
-    <%= f.datetime_select :date %>
+    <%= f.date_select :date, start_year: Time.now.year-100 %>
   </div>
   <div class="field">
-    <%= f.label :tour_id %><br>
-    <%= f.number_field :tour_id %>
+    <%= f.hidden_field :tour_id, value: params['tour_id'] %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Сохранить" %>
   </div>
 <% end %>

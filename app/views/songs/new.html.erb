@@ -2,4 +2,6 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Назад', songs_path %>
+<div class='controls'>
+	<%= link_to 'Назад', group_songs_path(params['group_id'].to_i) %>
+</div>

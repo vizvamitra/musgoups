@@ -2,7 +2,8 @@
 <html>
 <head>
   <title>Musgroups</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag "application", media: "screen, projection, handheld", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag "application-print", media: "print" %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
@@ -26,6 +27,9 @@
 
 		<section id='main'>
 			<div id='content'>
+				<%=button_to_function("Печать",
+															"javascript:print()",
+															id: 'print_button')%>
 				<%= yield %>
 			</div>
 		</section>

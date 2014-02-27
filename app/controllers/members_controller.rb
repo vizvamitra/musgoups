@@ -4,8 +4,8 @@ class MembersController < ApplicationController
   # GET /members
   # GET /members.json
   def index
-    @members = Member.where(group_id: params['group_id'])
-    @group = Group.find(params['group_id'])
+    @members = Member.get_by_group_id(params['group_id'].to_i)
+    @group = Group.get_one(params['group_id'].to_i)
   end
 
   # GET /members/1
@@ -16,6 +16,7 @@ class MembersController < ApplicationController
   # GET /members/new
   def new
     @member = Member.new
+    @member.group_id = params['group_id'].to_i
   end
 
   # GET /members/1/edit
@@ -29,11 +30,9 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       if @member.save
-        format.html { redirect_to @member, notice: 'Member was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @member }
+        format.html { redirect_to group_members_path(@member['group_id']), notice: 'Новый участник успешно добавлен.' }
       else
         format.html { render action: 'new' }
-        format.json { render json: @member.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -43,11 +42,9 @@ class MembersController < ApplicationController
   def update
     respond_to do |format|
       if @member.update(member_params)
-        format.html { redirect_to @member, notice: 'Member was successfully updated.' }
-        format.json { head :no_content }
+        format.html { redirect_to group_members_path(@member['group_id']), notice: 'Данные участника успешно обновлены.' }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @member.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -55,21 +52,32 @@ class MembersController < ApplicationController
   # DELETE /members/1
   # DELETE /members/1.json
   def destroy
-    @member.destroy
+    @member.delete
     respond_to do |format|
-      format.html { redirect_to members_url }
-      format.json { head :no_content }
+      format.html { redirect_to group_members_path(@member['group_id']) }
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_member
-      @member = Member.find(params[:id])
+      @member = Member.get_one(params[:id].to_i)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def member_params
-      params.require(:member).permit(:name, :role, :birth_date, :group_id)
+      pars = params.require(:member).permit! do |whitelist|
+        whitelist['name'] = params['member']['name'].trim.downcase
+        whitelist['role'] = params['member']['role'].trim.downcase
+        whitelist['birth_date(1i)'] = params['member']['birth_date(1i)'].to_i
+        whitelist['birth_date(2i)'] = params['member']['birth_date(2i)'].to_i
+        whitelist['birth_date(3i)'] = params['member']['birth_date(3i)'].to_i
+        whitelist['group_id'] = params['member']['group_id']
+      end
+      pars['birth_date'] = 
+          pars.delete('birth_date(1i)') + '-' +
+          pars.delete('birth_date(2i)') + '-' +
+          pars.delete('birth_date(3i)')
+      pars
     end
 end

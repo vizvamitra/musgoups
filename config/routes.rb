@@ -1,19 +1,27 @@
 Musgroups::Application.routes.draw do
   resources :concerts
+  get '/groups/:group_id/tours/:tour_id/concerts/:id/edit' => 'concerts#edit', as: 'edit_tour_concert'
+  get '/groups/:group_id/tours/:tour_id/concerts/new' => 'concerts#new', as: 'new_tour_concert'
 
   resources :tours
-  get 'groups/:group_id/tours' => 'tours#index', as: 'group_tours'
-  get 'groups/:group_id/tours/:id' => 'tours#show', as: 'group_tour'
+  get '/groups/:group_id/tours' => 'tours#index', as: 'group_tours'
+  get '/groups/:group_id/tours/:id/concerts' => 'tours#show', as: 'group_tour'
+  get '/groups/:group_id/tours/:id/edit' => 'tours#edit', as: 'edit_group_tour'
+  get '/groups/:group_id/tours/new' => 'tours#new', as: 'new_group_tour'
 
   resources :songs
   get '/groups/:group_id/songs' => 'songs#index', as: 'group_songs'
   get '/groups/:group_id/songs/new' => 'songs#new', as: 'new_group_song'
-  post '/groups/:group_id/songs/new' => 'songs#create'
+  get '/groups/:group_id/songs/:id/edit' => 'songs#edit', as: 'edit_group_song'
   
   resources :members
   get '/groups/:group_id/members' => 'members#index', as: 'group_members'
+  get '/groups/:group_id/members/new' => 'members#new', as: 'new_group_member'
+  get '/groups/:group_id/members/:id/edit' => 'members#edit', as: 'edit_group_member'
 
   resources :groups
+  get '/groups/:id/edit' => 'groups#edit', as: 'edit_group_path'
+
   get '/task' => 'groups#task', as: 'task'
 
   root 'groups#index', as: 'index', via: :all

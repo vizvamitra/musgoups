@@ -1,9 +1,12 @@
+<div id="notice"><%= notice %></div>
 <h1><%= "Песни #{@group['title']}" %></h1>
 
-<%= link_to 'Добавить', new_group_song_path(@group['id']) %>
-<%= link_to 'Назад', group_path(@group['id']) %>
+<div class='controls'>
+  <%= link_to 'Добавить', new_group_song_path(@group['id']) %> |
+  <%= link_to 'Назад', group_path(@group['id']) %>
+</div>
 
-<br/><br/>
+<br/>
 
 <table>
   <thead>
@@ -11,10 +14,7 @@
       <th>Название</th>
       <th>Композитор</th>
       <th>Автор текста</th>
-      <%unless @group%><th>Группа</th><%end%>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th colspan='2' class='controls'></th>
     </tr>
   </thead>
 
@@ -24,9 +24,8 @@
         <td><%= song['title'] %></td>
         <td><%= song['music_by'] %></td>
         <td><%= song['lyrics_by'] %></td>
-        <%unless @group%><td><%= link_to song['group_name'], group_path(song['group_id']) %></td> <% end %>
-        <td><%= link_to 'Изменить', edit_song_path(song['id']) %></td>
-        <td><%= link_to 'Удалить', song_path(song['id']), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td class='controls'><%= link_to 'Изменить', edit_group_song_path(song['group_id'],song['id']) %></td>
+        <td class='controls'><%= link_to 'Удалить', song_path(song['id']), method: :delete, data: { confirm: 'Вы уверены?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -34,5 +33,7 @@
 
 <br/>
 
-<%= link_to 'Добавить', new_group_song_path(@group['id']) %>
-<%= link_to 'Назад', group_path(@group['id']) %>
+<div class='controls'>
+  <%= link_to 'Добавить', new_group_song_path(@group['id']) %> |
+  <%= link_to 'Назад', group_path(@group['id']) %>
+</div>

@@ -4,12 +4,8 @@ class SongsController < ApplicationController
   # GET /songs
   # GET /songs.json
   def index
-    query = "SELECT * FROM songs WHERE group_id=#{params['group_id']}"
-    result = ActiveRecord::Base.connection.execute(query)
-    @songs = []
-    result.each(){|song| @songs << song}
-
-    @group = Group.find(params['group_id'])
+    @songs = Song.get_by_group_id(params['group_id'].to_i)
+    @group = Group.get_one(params['group_id'])
   end
 
   # GET /songs/1
@@ -20,6 +16,7 @@ class SongsController < ApplicationController
   # GET /songs/new
   def new
     @song = Song.new
+    @song.group_id = params['group_id'].to_i
   end
 
   # GET /songs/1/edit
@@ -33,11 +30,9 @@ class SongsController < ApplicationController
 
     respond_to do |format|
       if @song.save
-        format.html { redirect_to @song, notice: 'Song was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @song }
+        format.html { redirect_to group_songs_path(@song.group_id), notice: 'Песня успешно добавлена.' }
       else
         format.html { render action: 'new' }
-        format.json { render json: @song.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -47,11 +42,9 @@ class SongsController < ApplicationController
   def update
     respond_to do |format|
       if @song.update(song_params)
-        format.html { redirect_to @song, notice: 'Song was successfully updated.' }
-        format.json { head :no_content }
+        format.html { redirect_to group_songs_path(@song.group_id), notice: 'Данные песни успешно обновлены.' }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @song.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -59,17 +52,16 @@ class SongsController < ApplicationController
   # DELETE /songs/1
   # DELETE /songs/1.json
   def destroy
-    @song.destroy
+    @song.delete
     respond_to do |format|
-      format.html { redirect_to songs_url }
-      format.json { head :no_content }
+      format.html { redirect_to group_songs_path(@song.group_id) }
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_song
-      @song = Song.find(params[:id])
+      @song = Song.get_one(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

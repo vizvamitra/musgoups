@@ -1,6 +1,7 @@
-<h1>Editing tour</h1>
+<h1>Изменение данных концертного тура</h1>
 
-<%= render 'form' %>
+<%= render 'edit_form' %>
 
-<%= link_to 'Show', @tour %> |
-<%= link_to 'Back', tours_path %>
+<div class='controls'>
+	<%= link_to 'Назад', group_tours_path(@tour.group_id) %>
+</div>

@@ -4,21 +4,28 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    order = get_order_string
-    result = ActiveRecord::Base.connection.execute(
-      "SELECT * FROM groups ORDER BY #{order}")
-    @groups = []
-    result.each() {|item| @groups << item}
+    order_by = params['order_by']
+    order = params['order']
+    order_by = 'title' unless ['formation_year', 'country',
+                               'top_position'].include?(order_by)
+    order = 'asc' unless order == 'desc'
+
+    @groups = Group.get_all(order_by, order)
+    @groups.each() do |item|
+      item['title'][0] = item['title'][0].upcase
+      item['country'][0] = item['country'][0].upcase unless item['country'] == ''
+    end
     @group = Group.new
   end
 
   # GET /groups/1
   # GET /groups/1.json
   def show
-    result = ActiveRecord::Base.connection.execute(
-      "SELECT * FROM members WHERE group_id = #{@group['id']}")
-    @members = []
-    result.each() {|item| @members << item}
+  end
+
+  # GET /songs/new
+  def new
+    @group = Group.new
   end
 
   # GET /groups/1/edit
@@ -28,30 +35,13 @@ class GroupsController < ApplicationController
   # POST /groups
   # POST /groups.json
   def create
-    title = group_params['title'].trim
-    formation_year = group_params['formation_year']=='' ? 'NULL' : group_params['formation_year'].to_i
-    country = group_params['country'].trim
-    top_position = group_params['top_position']=='' ? 'NULL' : group_params['top_position'].to_i
-
-    saved = transact("INSERT INTO groups (title,
-                                          formation_year,
-                                          country, 
-                                          top_position, 
-                                          created_at, 
-                                          updated_at)
-                      VALUES (#{title == ''? 'NULL' : '\''+title+'\''},
-                              #{formation_year},
-                              '#{country}',
-                              #{top_position},
-                              '#{Time.now.to_s(:db)}',
-                              '#{Time.now.to_s(:db)}')")
     @group = Group.new(group_params)
 
     respond_to do |format|
-      if saved
-        format.html { redirect_to groups_url }
+      if @group.save
+        format.html { redirect_to @group, notice: 'Группа успешно создана.' }
       else
-        format.html { redirect_to groups_url, flash: { error: "ACHTUNGEN!!!" } }
+        format.html { redirect_to groups_url, flash: { error: error } }
       end
     end
   end
@@ -61,11 +51,9 @@ class GroupsController < ApplicationController
   def update
     respond_to do |format|
       if @group.update(group_params)
-        format.html { redirect_to @group, notice: 'Group was successfully updated.' }
-        format.json { head :no_content }
+        format.html { redirect_to @group, notice: 'Данные группы успешно обновлены.' }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @group.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -73,10 +61,9 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
-    @group.destroy
+    @group.delete
     respond_to do |format|
       format.html { redirect_to groups_url }
-      format.json { head :no_content }
     end
   end
 
@@ -86,12 +73,17 @@ class GroupsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_group
-      @group = Group.find(params[:id])
+      @group = Group.get_one(params[:id].to_i)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:title, :formation_year, :country, :top_position)
+      params.require(:group).permit! do |whitelist|
+        whtelist['title'] = params['group']['title'].trim.downcase
+        whtelist['formation_year'] = params['group']['formation_year'].to_i
+        whtelist['country'] = params['group']['country'].trim.downcase
+        whtelist['top_position'] = params['group']['top_position'].to_i
+      end
     end
 
     def get_order_string

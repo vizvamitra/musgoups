@@ -3,10 +3,12 @@
 <h1><%= @group['title'] %></h1>
 <h1>Программа "<%= @tour['title'] %>"</h1>
 
-<%= link_to 'Изменить', edit_tour_path(@tour['id']) %> |
-<%= link_to 'Назад', group_tours_path(@tour['group_id']) %>
+<div class='controls'>
+	<%= link_to 'Добавить', new_tour_concert_path(@tour['group_id'],@tour['id']) %> |
+	<%= link_to 'Назад', group_tours_path(@tour['group_id']) %>
+</div>
 
-<br/><br/>
+<br/>
 
 <table>
 	<thead>
@@ -15,8 +17,7 @@
 			<th>Город</th>
 			<th>Страна</th>
 			<th>Цена билета</th>
-			<th></th>
-			<th></th>
+			<th colspan='2' class='controls'></th>
 		</tr>
 	</thead>
 
@@ -27,8 +28,8 @@
 				<td><%= concert['city'] %></td>
 				<td><%= concert['country'] %></td>
 				<td><%= concert['ticket_price']%></td>
-				<td><%= link_to 'Изменить', edit_concert_path(concert['id']) %></td>
-        <td><%= link_to 'Удалить', concert_path(concert['id']), method: :delete, data: { confirm: 'Вы уверены?' } %></td>
+				<td class='controls'><%= link_to 'Изменить', edit_tour_concert_path(@tour.group_id, concert['tour_id'], concert['id']) %></td>
+        <td class='controls'><%= link_to 'Удалить', concert_path(concert['id']), method: :delete, data: { confirm: 'Вы уверены?' } %></td>
 			</tr>
 		<% end %>
 	</tbody>
@@ -37,4 +38,7 @@
 
 <br/>
 
-<%= link_to 'Назад', group_tours_path(@tour['group_id']) %>
+<div class='controls'>
+	<%= link_to 'Добавить', new_tour_concert_path(@tour['group_id'],@tour['id']) %> |
+	<%= link_to 'Назад', group_tours_path(@tour['group_id']) %>
+</div>

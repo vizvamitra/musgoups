@@ -12,22 +12,22 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :title %><br>
+    <%= f.label "Название" %><br>
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :formation_year %><br>
+    <%= f.label "Год создания" %><br>
     <%= f.number_field :formation_year %>
   </div>
   <div class="field">
-    <%= f.label :country %><br>
+    <%= f.label "Страна" %><br>
     <%= f.text_field :country %>
   </div>
   <div class="field">
-    <%= f.label :top_position %><br>
+    <%= f.label "Позиция в хит-параде" %><br>
     <%= f.number_field :top_position %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Сохранить" %>
   </div>
 <% end %>

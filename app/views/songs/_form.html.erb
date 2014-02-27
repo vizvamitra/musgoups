@@ -12,7 +12,7 @@
   <% end %>
 
   <div class="field">
-    <%= f.label "название" %><br>
+    <%= f.label "Название" %><br>
     <%= f.text_field :title %>
   </div>
   <div class="field">
@@ -24,10 +24,9 @@
     <%= f.text_field :lyrics_by %>
   </div>
   <div class="field">
-    <%= f.label :group_id %><br>
-    <%= f.number_field :group_id %>
+    <%= f.hidden_field :group_id, value: params['group_id'].to_i %>
   </div>
   <div class="actions">
-    <%= f.submit "Добавить" %>
+    <%= f.submit "Сохранить" %>
   </div>
 <% end %>

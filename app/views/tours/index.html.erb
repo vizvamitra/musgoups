@@ -1,9 +1,12 @@
+<div id="notice"><%= notice %></div>
 <h1>Концертные туры <%= @group['title'] %></h1>
 
-<%= link_to 'Добавить', new_tour_path %> | 
-<%= link_to 'Назад', group_path(@group['id']) %>
+<div class='controls'>
+  <%= link_to 'Добавить', new_group_tour_path(params['group_id'].to_i) %> | 
+  <%= link_to 'Назад', group_path(@group['id']) %>
+</div>
 
-<br/><br/>
+<br/>
 
 <table>
   <thead>
@@ -11,8 +14,7 @@
       <th>Название</th>
       <th>Начало</th>
       <th>Окончание</th>
-      <th></th>
-      <th></th>
+      <th colspan='2' class='controls'></th>
     </tr>
   </thead>
 
@@ -20,10 +22,10 @@
     <% @tours.each do |tour| %>
       <tr>
         <td><%= link_to tour['title'], group_tour_path(@group['id'],tour['id']) %></td>
-        <td><%= tour['begin_date'].to_date.strftime('%d.%m.%Y') %></td>
-        <td><%= tour['end_date'].to_date.strftime('%d.%m.%Y') %></td>
-        <td><%= link_to 'Изменить', edit_tour_path(tour['id']) %></td>
-        <td><%= link_to 'Удалить', tour_path(tour['id']), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= tour.begin_date.to_date.strftime('%d.%m.%Y') %></td>
+        <td><%= tour.end_date.to_date.strftime('%d.%m.%Y') %></td>
+        <td class='controls'><%= link_to 'Изменить', edit_group_tour_path(params['group_id'],tour.id) %></td>
+        <td class='controls'><%= link_to 'Удалить', tour_path(tour.id), method: :delete, data: { confirm: 'Вы уверены?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -31,5 +33,7 @@
 
 <br/>
 
-<%= link_to 'Добавить', new_tour_path %> | 
-<%= link_to 'Назад', group_path(@group['id']) %>
+<div class='controls'>
+  <%= link_to 'Добавить', new_group_tour_path(params['group_id'].to_i) %> | 
+  <%= link_to 'Назад', group_path(@group['id']) %>
+</div>
