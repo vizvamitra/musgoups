@@ -1,30 +1,46 @@
 Musgroups::Application.routes.draw do
-  resources :concerts
-  get '/groups/:group_id/tours/:tour_id/concerts/:id/edit' => 'concerts#edit', as: 'edit_tour_concert'
-  get '/groups/:group_id/tours/:tour_id/concerts/new' => 'concerts#new', as: 'new_tour_concert'
-
-  resources :tours
-  get '/groups/:group_id/tours' => 'tours#index', as: 'group_tours'
-  get '/groups/:group_id/tours/:id/concerts' => 'tours#show', as: 'group_tour'
-  get '/groups/:group_id/tours/:id/edit' => 'tours#edit', as: 'edit_group_tour'
-  get '/groups/:group_id/tours/new' => 'tours#new', as: 'new_group_tour'
-
-  resources :songs
-  get '/groups/:group_id/songs' => 'songs#index', as: 'group_songs'
-  get '/groups/:group_id/songs/new' => 'songs#new', as: 'new_group_song'
-  get '/groups/:group_id/songs/:id/edit' => 'songs#edit', as: 'edit_group_song'
-  
-  resources :members
-  get '/groups/:group_id/members' => 'members#index', as: 'group_members'
-  get '/groups/:group_id/members/new' => 'members#new', as: 'new_group_member'
-  get '/groups/:group_id/members/:id/edit' => 'members#edit', as: 'edit_group_member'
-
-  resources :groups
-  get '/groups/:id/edit' => 'groups#edit', as: 'edit_group_path'
-
-  get '/task' => 'groups#task', as: 'task'
 
   root 'groups#index', as: 'index', via: :all
+
+  get '/task' => 'task#task', as: 'task'
+
+  resources :groups
+
+  controller :songs do
+    get '/groups/:group_id/songs' => :index, as: 'group_songs'
+    get '/groups/:group_id/songs/new' => :new, as: 'new_group_song'
+    get '/groups/:group_id/songs/:id/edit' => :edit, as: 'edit_group_song'
+    post '/songs' => :create, as: 'songs'
+    patch '/songs/:id' => :update, as: 'song'
+    delete '/songs/:id' => :destroy
+  end
+
+  controller :members do
+    get '/groups/:group_id/members' => :index, as: 'group_members'
+    get '/groups/:group_id/members/new' => :new, as: 'new_group_member'
+    get '/groups/:group_id/members/:id/edit' => :edit, as: 'edit_group_member'
+    post '/members' => :create, as: 'members'
+    patch '/members/:id' => :update, as: 'member'
+    delete '/members/:id' => :destroy
+  end
+
+  controller :tours do
+    get '/groups/:group_id/tours' => :index, as: 'group_tours'
+    get '/groups/:group_id/tours/:id/concerts' => :show, as: 'group_tour'
+    get '/groups/:group_id/tours/:id/edit' => :edit, as: 'edit_group_tour'
+    get '/groups/:group_id/tours/new' => :new, as: 'new_group_tour'
+    post '/tours' => :create, as: 'tours'
+    patch '/tours/:id' => :update, as: 'tour'
+    delete '/tours/:id' => :destroy
+  end
+
+  controller :concerts do
+    get '/groups/:group_id/tours/:tour_id/concerts/:id/edit' => :edit, as: 'edit_tour_concert'
+    get '/groups/:group_id/tours/:tour_id/concerts/new' => :new, as: 'new_tour_concert'
+    post '/concerts' => :create, as: 'concerts'
+    patch '/concerts/:id' => :update, as: 'concert'
+    delete '/concerts/:id' => :destroy
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
