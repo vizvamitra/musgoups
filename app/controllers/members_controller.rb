@@ -4,7 +4,10 @@ class MembersController < ApplicationController
   # GET /members
   # GET /members.json
   def index
-    @members = Member.get_by_group_id(params['group_id'].to_i)
+    order_by, order = get_order_params
+    @order = order == 'desc' ? 'asc' : 'desc'
+    
+    @members = Member.get_by_group_id(params['group_id'].to_i, order_by, order)
     @group = Group.get_one(params['group_id'].to_i)
   end
 
@@ -58,33 +61,47 @@ class MembersController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_member
-      @member = Member.get_one(params[:id].to_i)
+private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_member
+    @member = Member.get_one(params[:id].to_i)
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def member_params
+    pars = params.require(:member).permit! do |whitelist|
+      whitelist['name'] = params['member']['name']
+      whitelist['role'] = params['member']['role']
+      whitelist['birth_date(1i)'] = params['member']['birth_date(1i)']
+      whitelist['birth_date(2i)'] = params['member']['birth_date(2i)']
+      whitelist['birth_date(3i)'] = params['member']['birth_date(3i)']
+      whitelist['group_id'] = params['member']['group_id']
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def member_params
-      pars = params.require(:member).permit! do |whitelist|
-        whitelist['name'] = params['member']['name']
-        whitelist['role'] = params['member']['role']
-        whitelist['birth_date(1i)'] = params['member']['birth_date(1i)']
-        whitelist['birth_date(2i)'] = params['member']['birth_date(2i)']
-        whitelist['birth_date(3i)'] = params['member']['birth_date(3i)']
-        whitelist['group_id'] = params['member']['group_id']
-      end
+    pars['name'] = pars['name'].trim
+    pars['role'] = pars['role'].trim
+    pars['group_id'] = pars['group_id'].to_i
+    pars['birth_date(1i)'] = pars['birth_date(1i)'].to_i
+    pars['birth_date(2i)'] = pars['birth_date(2i)'].to_i
+    pars['birth_date(3i)'] = pars['birth_date(3i)'].to_i
+    pars['birth_date'] = 
+        pars.delete('birth_date(1i)').to_s + '-' +
+        pars.delete('birth_date(2i)').to_s + '-' +
+        pars.delete('birth_date(3i)').to_s
+    pars
+  end
 
-      pars['name'] = pars['name'].trim
-      pars['role'] = pars['role'].trim
-      pars['group_id'] = pars['group_id'].to_i
-      pars['birth_date(1i)'] = pars['birth_date(1i)'].to_i
-      pars['birth_date(2i)'] = pars['birth_date(2i)'].to_i
-      pars['birth_date(3i)'] = pars['birth_date(3i)'].to_i
-      pars['birth_date'] = 
-          pars.delete('birth_date(1i)').to_s + '-' +
-          pars.delete('birth_date(2i)').to_s + '-' +
-          pars.delete('birth_date(3i)').to_s
-      pars
+  def get_order_params
+    order_by = case params['order_by']
+      when 'role' then 'role'
+      when 'age' then 'birth_date'
+      else 'name'
     end
+    order = case params['order']
+      when 'asc' then 'asc'
+      when 'desc' then 'desc'
+      else ''
+    end
+    [order_by, order]
+  end
 end

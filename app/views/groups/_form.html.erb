@@ -17,7 +17,7 @@
   </div>
   <div class="field">
     <%= f.label "Год создания" %><br>
-    <%= f.number_field :formation_year %>
+    <%= f.number_field :formation_year, in: (Time.now.year-100)..(Time.now.year) %>
   </div>
   <div class="field">
     <%= f.label "Страна" %><br>
@@ -25,7 +25,7 @@
   </div>
   <div class="field">
     <%= f.label "Позиция в хит-параде" %><br>
-    <%= f.number_field :top_position %>
+    <%= f.number_field :top_position, in: 1..100 %>
   </div>
   <div class="actions">
     <%= f.submit "Сохранить" %>

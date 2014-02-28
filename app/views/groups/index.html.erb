@@ -10,11 +10,10 @@
 <table>
   <thead>
     <tr>
-      <% order = (params['order']=='asc') ? 'desc' : 'asc' %>
-      <th><%= link_to 'Название', "?order_by=title&order=#{order}" %></th>
-      <th><%= link_to 'Год создания', "?order_by=formation_year&order=#{order}" %></th>
-      <th><%= link_to 'Страна', "?order_by=country&order=#{order}" %></th>
-      <th><%= link_to 'Хит-парад', "?order_by=top_position&order=#{order}" %></th>
+      <th><%= link_to 'Название', "?order_by=title&order=#{@order}" %></th>
+      <th><%= link_to 'Год создания', "?order_by=formation_year&order=#{@order}" %></th>
+      <th><%= link_to 'Страна', "?order_by=country&order=#{@order}" %></th>
+      <th><%= link_to 'Хит-парад', "?order_by=top_position&order=#{@order}" %></th>
       <th colspan='2' class='controls'></th>
     </tr>
   </thead>

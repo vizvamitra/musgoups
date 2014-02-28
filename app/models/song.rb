@@ -10,9 +10,10 @@ class Song < ActiveRecord::Base
 		result[0]
 	end
 
-	def self.get_by_group_id(id)
+	def self.get_by_group_id(id, order_by, order)
 		Song.find_by_sql("SELECT * FROM songs
-			 								WHERE group_id = #{id}")
+			 								WHERE group_id = #{id}
+                      ORDER BY #{order_by} #{order}")
 	end
 
 	def save
@@ -81,7 +82,7 @@ class Song < ActiveRecord::Base
               ) g ON g.gid = s.group_id
             WHERE s.title LIKE '%#{string}%'
                OR s.music_by LIKE '%#{string}%'
-               OR s.lyrics_by LIKE '#{string.to_i}'"
+               OR s.lyrics_by LIKE '%#{string.to_i}%'"
     Song.find_by_sql(query)
   end
 end

@@ -11,9 +11,9 @@
 <table>
   <thead>
     <tr>
-      <th>Название</th>
-      <th>Начало</th>
-      <th>Окончание</th>
+      <th><%= link_to 'Название', "?order_by=title&order=#{@order}" %></th>
+      <th><%= link_to 'Начало', "?order_by=begin_date&order=#{@order}" %></th>
+      <th><%= link_to 'Окончание', "?order_by=end_date&order=#{@order}" %></th>
       <th colspan='2' class='controls'></th>
     </tr>
   </thead>

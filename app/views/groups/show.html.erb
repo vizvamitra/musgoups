@@ -1,21 +1,21 @@
 <div id="notice"><%= notice %></div>
 <h1><%= @group['title'] %></h1><br/>
 
-<table>
-	<tr>
-	  <td><strong>Год создания:</strong></td>
-	  <td><%= @group['formation_year'] %></td>
-	</tr>
-
-	<tr>
-	  <td><strong>Страна:</strong></td>
-	  <td><%= @group['country'] %></td>
-	</tr>
-
-	<tr>
-	  <td><strong>Место в хит-параде:</strong></td>
-	  <td><%= @group['top_position'] %></td>
-	</tr>
+<table id='group_info'>
+	<thead>
+		<tr>
+			<th>Год создания</th>
+			<th>Страна</th>
+			<th>Место в хит-параде</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><%= @group['formation_year'] %></td>
+			<td><%= @group['country'] %></td>
+			<td><%= @group['top_position'] %></td>
+		</tr>
+	</tbody>
 </table><br/>
 
 <div class='controls'>

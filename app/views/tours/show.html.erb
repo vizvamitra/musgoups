@@ -13,10 +13,10 @@
 <table>
 	<thead>
 		<tr>
-			<th>Дата</th>
-			<th>Город</th>
-			<th>Страна</th>
-			<th>Цена билета</th>
+			<th><%= link_to 'Дата', "?order_by=date&order=#{@order}" %></th>
+			<th><%= link_to 'Город', "?order_by=city&order=#{@order}" %></th>
+			<th><%= link_to 'Страна', "?order_by=country&order=#{@order}" %></th>
+			<th><%= link_to 'Цена билета', "?order_by=ticket_price&order=#{@order}" %></th>
 			<th colspan='2' class='controls'></th>
 		</tr>
 	</thead>

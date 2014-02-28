@@ -9,9 +9,10 @@ class Member < ActiveRecord::Base
 		result[0]
 	end
 
-	def self.get_by_group_id(id)
+	def self.get_by_group_id(id, order_by, order)
 		Member.find_by_sql("SELECT * FROM members
-			 								 WHERE group_id = #{id}")
+			 								 WHERE group_id = #{id}
+                       ORDER BY #{order_by} #{order}")
 	end
 
 	def save
@@ -79,7 +80,7 @@ class Member < ActiveRecord::Base
                 FROM groups
               ) g ON g.gid = m.group_id
             WHERE name LIKE '%#{string}%'
-              OR role LIKE '%#{string}%'"
+               OR role LIKE '%#{string}%'"
     Member.find_by_sql(query)
   end
 end

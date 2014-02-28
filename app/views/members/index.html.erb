@@ -11,9 +11,9 @@
 <table>
   <thead>
     <tr>
-      <th>Участник</th>
-      <th>Амплуа</th>
-      <th>Возраст</th>
+      <th><%= link_to 'Участник', "?order_by=name&order=#{@order}" %></th>
+      <th><%= link_to 'Амплуа', "?order_by=role&order=#{@order}" %></th>
+      <th><%= link_to 'Возраст', "?order_by=age&order=#{@order}" %></th>
       <th colspan='2' class='controls'></th>
     </tr>
   </thead>

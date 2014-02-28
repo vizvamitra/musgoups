@@ -8,7 +8,7 @@ class Tour < ActiveRecord::Base
 		result[0]
 	end
 
-	def self.get_by_group_id(id)
+	def self.get_by_group_id(id, order_by, order)
     Tour.find_by_sql("SELECT
                         t.id, t.title, t.group_id, d.begin_date, d.end_date
                       FROM
@@ -20,13 +20,14 @@ class Tour < ActiveRecord::Base
                          FROM concerts
                          GROUP BY tour_id
                         ) d ON t.id = d.tour_id
-                      WHERE t.group_id=#{id}")
+                      WHERE t.group_id=#{id}
+                      ORDER BY #{order_by} #{order}")
   end
 
-  def get_concerts
+  def get_concerts(order_by, order)
     query = "SELECT * FROM concerts
              WHERE tour_id = #{id}
-             ORDER BY date ASC"
+             ORDER BY #{order_by} #{order}"
     begin
       ActiveRecord::Base.connection.execute(query)
     rescue => e
@@ -64,7 +65,6 @@ class Tour < ActiveRecord::Base
 		else
   		query = "UPDATE tours
                SET title = '#{new_data['title']}',
-                   group_id = #{new_data['group_id']},
                    updated_at = '#{Time.now.to_s(:db)}'
                WHERE id=#{id};"
       begin

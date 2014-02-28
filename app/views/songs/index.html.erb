@@ -11,9 +11,9 @@
 <table>
   <thead>
     <tr>
-      <th>Название</th>
-      <th>Композитор</th>
-      <th>Автор текста</th>
+      <th><%= link_to 'Название', "?order_by=title&order=#{@order}" %></th>
+      <th><%= link_to 'Композитор', "?order_by=music_by&order=#{@order}" %></th>
+      <th><%= link_to 'Автор текста', "?order_by=lyrics_by&order=#{@order}" %></th>
       <th colspan='2' class='controls'></th>
     </tr>
   </thead>
