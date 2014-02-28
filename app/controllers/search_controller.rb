@@ -1,6 +1,6 @@
 class SearchController < ApplicationController
   def index
-		if request.method == 'POST'
+		if request.method == 'POST' && params[:query] != ""
 			@results = search(search_params)
   	end
   end
