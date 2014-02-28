@@ -1,9 +1,11 @@
-<h1>Поиск</h1>
+<div id="search">
+	<h1>Поиск</h1>
 
-<%= render 'form' %>
+	<%= render 'form' %>
+</div>
 
 <% if @results %>
-	<h3>Найдено:</h3><br/>
+	<h3>Результаты поиска по запросу "<%= @results[:query] %>":</h3><br/>
 
 	<table>
 	<thead>

@@ -18,7 +18,7 @@
 		font-size:12px;
 		color:black;
 	}
-	.controls{
+	.controls, #search{
 		display:none;
 	}
 

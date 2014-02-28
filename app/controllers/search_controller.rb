@@ -13,7 +13,7 @@ private
 
   def search(query)
 
-  	results = {groups: [], members: [], songs: [], tours: [], concerts: []}
+  	results = {query: query, groups: [], members: [], songs: [], tours: [], concerts: []}
 
   	unless query == ""
 			results[:groups] = Group.search_for(query)
